@@ -33,10 +33,14 @@ def print_netmask(ip):
 
     snm = "{}.{}.{}.{}".format(255, 255 if ip_class == 'B' else 0, 255 if ip_class == 'C' else 0, 0)
 
-    print("Netmask: {} \t {}".format(snm, to_bin(snm)))
+    print("Netmask: {} \t {}(class {})".format(snm, to_bin(snm), ip_class))
 
+def print_broadcast(ip):
+    print("Network: {} \t {}".format(ip, to_bin(ip)))
 
-ip = input("Enter ip address: ")
+input_value = input("Enter ip address: (ex. 127.0.0.1/24)")
+
+ip, mask = input_value.split('/')[0]
 
 if not verify(ip):
     sys.exit(0)
