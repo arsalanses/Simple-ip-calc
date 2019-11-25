@@ -19,9 +19,7 @@ def to_bin(ip):
 def print_network(ip):
     print("Network: {} \t {}".format(ip, to_bin(ip)))
 
-def print_netmask(ip, mask):
-    element = list(map(int, ip.split('.')))
-    
+def print_netmask(ip, given_mask):
     ip_class = 'Undefined'
     if to_bin(ip)[0] == '0':
         ip_class = 'A'
@@ -30,9 +28,12 @@ def print_netmask(ip, mask):
     elif to_bin(ip)[:3] == '110':
         ip_class = 'C'
 
-    snm = "{}.{}.{}.{}".format(255, 255 if ip_class == 'B' else 0, 255 if ip_class == 'C' else 0, 0)
+    mask = [0, 0, 0, 0]
 
-    print("Netmask: {} \t {} (class {})".format(snm, to_bin(snm), ip_class))
+    for item in range(int(given_mask)):
+        mask[item // 8] += 1 << (7 - item % 8)
+
+    print("Netmask: {} \t {} (class {})".format('.'.join(map(str, mask)), to_bin('.'.join(map(str, mask))), ip_class))
 
 # def print_broadcast(ip):
 #     print("Broadcast: {} \t {}".format(ip, to_bin(ip)))
