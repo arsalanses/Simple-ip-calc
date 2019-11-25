@@ -40,7 +40,7 @@ def print_broadcast(ip):
 
 input_value = input("Enter ip address: (ex. 127.0.0.1/24)")
 
-ip, mask = input_value.split('/')[0]
+ip, mask = input_value.split('/')
 
 if not verify(ip):
     sys.exit(0)
