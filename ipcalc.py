@@ -2,8 +2,11 @@ import sys
 
 def verify(ip):
     for item in ip.split('.'):
-        if int(item) > 255:
+        if int(item) >= 255:
+            print("Invalid ip address")
             return False
+    
+    return True
 
 def to_bin(ip):
     element = list(map(int, ip.split('.')))
@@ -14,12 +17,30 @@ def to_bin(ip):
     
     return "{:08d}.{:08d}.{:08d}.{:08d}".format(bin_num[0], bin_num[1], bin_num[2], bin_num[3])
 
-def print_address(ip):
+def print_network(ip):
     print("Network: {} \t {}".format(ip, to_bin(ip)))
+
+def print_netmask(ip):
+    element = list(map(int, ip.split('.')))
+    
+    ip_class = 'Undefined'
+    if element[0] < 126:
+        ip_class = 'A'
+    elif element[0] < 191:
+        ip_class = 'B'
+    elif element[0] < 223:
+        ip_class = 'C'
+
+    snm = "{}.{}.{}.{}".format(255, 255 if ip_class == 'B' else 0, 255 if ip_class == 'C' else 0, 0)
+
+    print("Netmask: {} \t {}".format(snm, to_bin(snm)))
+
 
 ip = input("Enter ip address: ")
 
 if not verify(ip):
     sys.exit(0)
 
-print_address(ip)
+print_network(ip)
+
+print_Netmask(ip)
