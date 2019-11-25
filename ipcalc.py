@@ -3,7 +3,6 @@ import sys
 def verify(ip):
     for item in ip.split('.'):
         if int(item) > 255:
-            print("Invalid ip address")
             return False
     
     return True
@@ -43,6 +42,7 @@ input_value = input("Enter ip address: (ex. 127.0.0.1/24)")
 ip, mask = input_value.split('/')
 
 if not verify(ip):
+    print("Invalid ip address")
     sys.exit(0)
 
 print_network(ip)
