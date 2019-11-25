@@ -43,4 +43,4 @@ if not verify(ip):
 
 print_network(ip)
 
-print_Netmask(ip)
+print_netmask(ip)
