@@ -19,23 +19,23 @@ def to_bin(ip):
 def print_network(ip):
     print("Network: {} \t {}".format(ip, to_bin(ip)))
 
-def print_netmask(ip):
+def print_netmask(ip, mask):
     element = list(map(int, ip.split('.')))
     
     ip_class = 'Undefined'
-    if element[0] < 126:
+    if to_bin(ip)[0] == '0':
         ip_class = 'A'
-    elif element[0] < 191:
+    elif to_bin(ip)[:1] == '10':
         ip_class = 'B'
-    elif element[0] < 223:
+    elif to_bin(ip)[:2] == '110':
         ip_class = 'C'
 
     snm = "{}.{}.{}.{}".format(255, 255 if ip_class == 'B' else 0, 255 if ip_class == 'C' else 0, 0)
 
-    print("Netmask: {} \t {}(class {})".format(snm, to_bin(snm), ip_class))
+    print("Netmask: {} \t {} (class {})".format(snm, to_bin(snm), ip_class))
 
-def print_broadcast(ip):
-    print("Network: {} \t {}".format(ip, to_bin(ip)))
+# def print_broadcast(ip):
+#     print("Broadcast: {} \t {}".format(ip, to_bin(ip)))
 
 input_value = input("Enter ip address: (ex. 127.0.0.1/24)")
 
@@ -47,4 +47,4 @@ if not verify(ip):
 
 print_network(ip)
 
-print_netmask(ip)
+print_netmask(ip, mask)
