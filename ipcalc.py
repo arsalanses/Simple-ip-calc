@@ -25,9 +25,9 @@ def print_netmask(ip, mask):
     ip_class = 'Undefined'
     if to_bin(ip)[0] == '0':
         ip_class = 'A'
-    elif to_bin(ip)[:1] == '10':
+    elif to_bin(ip)[:2] == '10':
         ip_class = 'B'
-    elif to_bin(ip)[:2] == '110':
+    elif to_bin(ip)[:3] == '110':
         ip_class = 'C'
 
     snm = "{}.{}.{}.{}".format(255, 255 if ip_class == 'B' else 0, 255 if ip_class == 'C' else 0, 0)
@@ -37,9 +37,12 @@ def print_netmask(ip, mask):
 # def print_broadcast(ip):
 #     print("Broadcast: {} \t {}".format(ip, to_bin(ip)))
 
-input_value = input("Enter ip address: (ex. 127.0.0.1/24)")
+input_value = input("Enter ip address (ex. 127.0.0.1/24): ")
 
-ip, mask = input_value.split('/')
+if '/' in input_value:
+    ip, mask = input_value.split('/')
+else:
+    ip, mask = input_value, 16
 
 if not verify(ip):
     print("Invalid ip address")
