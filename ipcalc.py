@@ -31,13 +31,15 @@ def print_netmask(ip, given_mask):
     elif to_bin(ip)[:3] == '110':
         ip_class = 'C'
         given_mask = given_mask if given_mask != "NULL" else 24
+    else:
+        given_mask = given_mask if given_mask != "NULL" else 5
 
     mask = [0, 0, 0, 0]
 
     for item in range(int(given_mask)):
         mask[item // 8] += 1 << (7 - item % 8)
 
-    print("Netmask: {} \t {} (class {})".format('.'.join(map(str, mask)), to_bin('.'.join(map(str, mask))), ip_class))
+    print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, mask)), given_mask, to_bin('.'.join(map(str, mask))), ip_class))
 
 # def print_broadcast(ip):
 #     print("Broadcast: {} \t {}".format(ip, to_bin(ip)))
