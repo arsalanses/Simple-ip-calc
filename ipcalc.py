@@ -40,8 +40,11 @@ def print_netmask(ip, given_mask):
 
     print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, mask)), given_mask, to_binary('.'.join(map(str, mask))), ip_class))
 
-# def print_broadcast(ip):
-#     print("Broadcast: {} \t {}".format(ip, to_bin(ip)))
+def print_hosts(mask):
+    mask = int(mask) if mask != "NULL" else 5
+    hosts = 2 ** (32 - mask) - 2
+    print("Hosts: {}".format(hosts))
+
 
 input_value = input("Enter ip address (ex. 127.0.0.1/24): ")
 
@@ -57,3 +60,5 @@ if not verify(ip):
 print_network(ip)
 
 print_netmask(ip, mask)
+
+print_hosts(mask)
