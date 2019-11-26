@@ -24,10 +24,13 @@ def print_netmask(ip, given_mask):
     ip_class = 'Undefined'
     if to_bin(ip)[0] == '0':
         ip_class = 'A'
+        given_mask = given_mask if given_mask != "NULL" else 8
     elif to_bin(ip)[:2] == '10':
         ip_class = 'B'
+        given_mask = given_mask if given_mask != "NULL" else 16
     elif to_bin(ip)[:3] == '110':
         ip_class = 'C'
+        given_mask = given_mask if given_mask != "NULL" else 24
 
     mask = [0, 0, 0, 0]
 
@@ -44,7 +47,7 @@ input_value = input("Enter ip address (ex. 127.0.0.1/24): ")
 if '/' in input_value:
     ip, mask = input_value.split('/')
 else:
-    ip, mask = input_value, 16
+    ip, mask = input_value, "NULL"
 
 if not verify(ip):
     print("Invalid ip address")
