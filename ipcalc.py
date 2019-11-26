@@ -2,11 +2,8 @@ import sys
 import re
 
 def verify(ip):
-    res = re.search("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", ip)
-    if res:
-        return True
-    else:
-        return False
+    ipv4 = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+    return True if re.search(ipv4, ip) else False
 
 def to_binary(ip):
     element = list(map(int, ip.split('.')))
@@ -23,7 +20,7 @@ def print_network(ip):
 def print_netmask(ip, given_mask):
     ip_class = 'Undefined'
     binary_ip = to_binary(ip)
-    
+
     if binary_ip[0] == '0':
         ip_class = 'A'
         given_mask = given_mask if given_mask != "NULL" else 8
