@@ -1,11 +1,12 @@
 import sys
+import re
 
 def verify(ip):
-    for item in ip.split('.'):
-        if int(item) > 255:
-            return False
-    
-    return True
+    res = re.search("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", ip)
+    if res:
+        return True
+    else:
+        return False
 
 def to_bin(ip):
     element = list(map(int, ip.split('.')))
