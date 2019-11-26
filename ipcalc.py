@@ -8,7 +8,7 @@ def verify(ip):
     else:
         return False
 
-def to_bin(ip):
+def to_binary(ip):
     element = list(map(int, ip.split('.')))
     
     bin_num = []
@@ -18,17 +18,19 @@ def to_bin(ip):
     return "{:08d}.{:08d}.{:08d}.{:08d}".format(bin_num[0], bin_num[1], bin_num[2], bin_num[3])
 
 def print_network(ip):
-    print("Network: {} \t {}".format(ip, to_bin(ip)))
+    print("Network: {} \t {}".format(ip, to_binary(ip)))
 
 def print_netmask(ip, given_mask):
     ip_class = 'Undefined'
-    if to_bin(ip)[0] == '0':
+    binary_ip = to_binary(ip)
+    
+    if binary_ip[0] == '0':
         ip_class = 'A'
         given_mask = given_mask if given_mask != "NULL" else 8
-    elif to_bin(ip)[:2] == '10':
+    elif binary_ip[:2] == '10':
         ip_class = 'B'
         given_mask = given_mask if given_mask != "NULL" else 16
-    elif to_bin(ip)[:3] == '110':
+    elif binary_ip[:3] == '110':
         ip_class = 'C'
         given_mask = given_mask if given_mask != "NULL" else 24
     else:
@@ -39,7 +41,7 @@ def print_netmask(ip, given_mask):
     for item in range(int(given_mask)):
         mask[item // 8] += 1 << (7 - item % 8)
 
-    print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, mask)), given_mask, to_bin('.'.join(map(str, mask))), ip_class))
+    print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, mask)), given_mask, to_binary('.'.join(map(str, mask))), ip_class))
 
 # def print_broadcast(ip):
 #     print("Broadcast: {} \t {}".format(ip, to_bin(ip)))
