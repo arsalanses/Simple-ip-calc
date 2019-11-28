@@ -50,12 +50,20 @@ def print_broadcast(ip, netmask):
         res.append(ele + (255 - not_netmask))
 
     print("Broadcast: {} \t {}".format('.'.join(map(str, res)), to_binary('.'.join(map(str, res)))))
+    
+    return '.'.join(map(str, res))
 
 def print_fist_host(ip):
     element = list(map(int, ip.split('.')))
     element[3] += 1
 
     print("FirstHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
+
+def print_last_host(ip):
+    element = list(map(int, ip.split('.')))
+    element[3] -= 1
+
+    print("LastHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
 
 def print_hosts(mask):
     mask = int(mask) if mask != "NULL" else 5
@@ -77,8 +85,10 @@ print_network(ip)
 
 netmask = print_netmask(ip, mask)
 
-print_broadcast(ip, netmask)
+broadcast = print_broadcast(ip, netmask)
 
 print_fist_host(ip)
+
+print_last_host(broadcast)
 
 print_hosts(mask)
