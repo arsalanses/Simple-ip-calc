@@ -91,4 +91,4 @@ print_fist_host(ip)
 
 print_last_host(broadcast)
 
-print_hosts(mask)
+print_hosts(netmask[1])
