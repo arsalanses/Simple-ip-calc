@@ -1,4 +1,3 @@
-import sys
 import re
 
 
@@ -88,7 +87,7 @@ else:
 
 if not verify(ip):
     print("Invalid ip address")
-    sys.exit(0)
+    exit()
 
 print_network(ip)
 
