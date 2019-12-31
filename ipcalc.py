@@ -8,73 +8,97 @@ def verify(ip):
 
 def to_binary(ip):
     element = list(map(int, ip.split('.')))
-    
+
     bin_num = []
     for item in element:
         bin_num.append(int(bin(item)[2:]))
-    
+
     return "{:08d}.{:08d}.{:08d}.{:08d}".format(bin_num[0], bin_num[1], bin_num[2], bin_num[3])
 
 
-def print_network(ip):
-    print("Network: {} \t {}".format(ip, to_binary(ip)))
+def to_decimal(bin):
+    element = bin.split('.')
+
+    dec_num = []
+    for item in element:
+        dec_num.append(int(item, 2))
+
+    return "{}.{}.{}.{}".format(dec_num[0], dec_num[1], dec_num[2], dec_num[3])
 
 
-def print_netmask(ip, given_mask):
+def verify_mask(ip, mask):
+    binary_ip = to_binary(ip)
+
+    if mask == "NULL":
+        if binary_ip[0] == '0':
+            return 8
+        elif binary_ip[:2] == '10':
+            return 16
+        elif binary_ip[:3] == '110':
+            return 24
+        else:
+            return 5
+    else:
+        return mask if int(mask) < 32 else False
+
+
+def print_netmask(ip, mask):
     ip_class = 'Undefined'
     binary_ip = to_binary(ip)
 
     if binary_ip[0] == '0':
         ip_class = 'A'
-        given_mask = given_mask if given_mask != "NULL" else 8
     elif binary_ip[:2] == '10':
         ip_class = 'B'
-        given_mask = given_mask if given_mask != "NULL" else 16
     elif binary_ip[:3] == '110':
         ip_class = 'C'
-        given_mask = given_mask if given_mask != "NULL" else 24
-    else:
-        given_mask = given_mask if given_mask != "NULL" else 5
 
-    mask = [0, 0, 0, 0]
+    netmask = [0, 0, 0, 0]
 
-    for item in range(int(given_mask)):
-        mask[item // 8] += 1 << (7 - item % 8)
+    for item in range(int(mask)):
+        netmask[item // 8] += 1 << (7 - item % 8)
 
-    print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, mask)), given_mask, to_binary('.'.join(map(str, mask))), ip_class))
-    
-    return [mask, given_mask]
+    print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, netmask)), mask, to_binary('.'.join(map(str, netmask))), ip_class))
+
+    return netmask
 
 
-def print_broadcast(ip, netmask):
-    element = list(map(int, ip.split('.')))
-    res = []
+def formatter(my_str, group=8, char='.'):
+    my_str = str(my_str)
+    return char.join(my_str[i:i+group] for i in range(0, len(my_str), group))
 
-    for not_netmask, ele in zip(netmask[0], element):
-        res.append(ele + (255 - not_netmask))
 
-    print("Broadcast: {} \t {}".format('.'.join(map(str, res)), to_binary('.'.join(map(str, res)))))
-    
-    return '.'.join(map(str, res))
+def print_network(ip, mask):
+    binary_ip = to_binary(ip)
+    binary_ip = binary_ip.replace('.', '')
+    binary_ip = binary_ip[:int(mask)] + binary_ip[int(mask):].replace('1', '0')
+    binary_ip = formatter(binary_ip)
+    print("Network: {} \t {}".format(to_decimal(binary_ip), binary_ip))
+
+
+def print_broadcast(ip, mask):
+    binary_ip = to_binary(ip)
+    binary_ip = binary_ip.replace('.', '')
+    binary_ip = binary_ip[:int(mask)] + binary_ip[int(mask):].replace('0', '1')
+    binary_ip = formatter(binary_ip)
+    print('Broadcast: {} \t {}'.format(to_decimal(binary_ip), binary_ip))
+    return to_decimal(binary_ip)
 
 
 def print_fist_host(ip):
     element = list(map(int, ip.split('.')))
     element[3] += 1
-
     print("FirstHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
 
 
 def print_last_host(ip):
     element = list(map(int, ip.split('.')))
     element[3] -= 1
-
     print("LastHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
 
 
 def print_hosts(mask):
-    mask = int(mask) if mask != "NULL" else 5
-    hosts = 2 ** (32 - mask) - 2
+    hosts = 2 ** (32 - int(mask)) - 2
     print("Hosts: {}".format(hosts))
 
 
@@ -89,14 +113,15 @@ if not verify(ip):
     print("Invalid ip address")
     exit()
 
-print_network(ip)
+if not verify_mask(ip, mask):
+    print("Invalid mask value")
+    exit()
+else:
+    mask = verify_mask(ip, mask)
 
+print_network(ip, mask)
 netmask = print_netmask(ip, mask)
-
-broadcast = print_broadcast(ip, netmask)
-
+broadcast = print_broadcast(ip, mask)
 print_fist_host(ip)
-
 print_last_host(broadcast)
-
-print_hosts(netmask[1])
+print_hosts(mask)
