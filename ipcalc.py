@@ -58,7 +58,9 @@ def print_netmask(ip, mask):
     for item in range(int(mask)):
         netmask[item // 8] += 1 << (7 - item % 8)
 
-    print("Netmask:\t{}\t{} (class {})".format('.'.join(map(str, netmask)), to_binary('.'.join(map(str, netmask))), ip_class))
+    tmp_netmask = '.'.join(map(str, netmask))
+
+    print("Netmask:\t{}\t{} (class {})".format(tmp_netmask, to_binary(tmp_netmask), ip_class))
 
 
 def formatter(my_str, group=8, char='.'):
