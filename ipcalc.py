@@ -58,7 +58,7 @@ def print_netmask(ip, mask):
     for item in range(int(mask)):
         netmask[item // 8] += 1 << (7 - item % 8)
 
-    print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, netmask)), mask, to_binary('.'.join(map(str, netmask))), ip_class))
+    print("Netmask:\t{}\t{} (class {})".format('.'.join(map(str, netmask)), to_binary('.'.join(map(str, netmask))), ip_class))
 
 
 def formatter(my_str, group=8, char='.'):
@@ -71,7 +71,7 @@ def print_network(ip, mask):
     binary_ip = binary_ip.replace('.', '')
     binary_ip = binary_ip[:int(mask)] + binary_ip[int(mask):].replace('1', '0')
     binary_ip = formatter(binary_ip)
-    print("Network: {} \t {}".format(to_decimal(binary_ip), binary_ip))
+    print("Network:\t{}/{}\t{}".format(to_decimal(binary_ip), mask, binary_ip))
 
 
 def print_broadcast(ip, mask):
@@ -79,25 +79,25 @@ def print_broadcast(ip, mask):
     binary_ip = binary_ip.replace('.', '')
     binary_ip = binary_ip[:int(mask)] + binary_ip[int(mask):].replace('0', '1')
     binary_ip = formatter(binary_ip)
-    print('Broadcast: {} \t {}'.format(to_decimal(binary_ip), binary_ip))
+    print('Broadcast:\t{}\t{}'.format(to_decimal(binary_ip), binary_ip))
     return to_decimal(binary_ip)
 
 
 def print_fist_host(ip):
     element = list(map(int, ip.split('.')))
     element[3] += 1
-    print("FirstHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
+    print("FirstHost:\t{}\t{}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
 
 
 def print_last_host(ip):
     element = list(map(int, ip.split('.')))
     element[3] -= 1
-    print("LastHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
+    print("LastHost:\t{}\t{}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
 
 
 def print_hosts(mask):
     hosts = 2 ** (32 - int(mask)) - 2
-    print("Hosts: {}".format(hosts))
+    print("Hosts:\t{}".format(hosts))
 
 
 input_value = input("Enter ip address (ex. 127.0.0.1/24): ")
