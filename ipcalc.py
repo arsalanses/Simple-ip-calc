@@ -1,9 +1,11 @@
 import sys
 import re
 
+
 def verify(ip):
     ipv4 = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
     return True if re.search(ipv4, ip) else False
+
 
 def to_binary(ip):
     element = list(map(int, ip.split('.')))
@@ -14,8 +16,10 @@ def to_binary(ip):
     
     return "{:08d}.{:08d}.{:08d}.{:08d}".format(bin_num[0], bin_num[1], bin_num[2], bin_num[3])
 
+
 def print_network(ip):
     print("Network: {} \t {}".format(ip, to_binary(ip)))
+
 
 def print_netmask(ip, given_mask):
     ip_class = 'Undefined'
@@ -42,6 +46,7 @@ def print_netmask(ip, given_mask):
     
     return [mask, given_mask]
 
+
 def print_broadcast(ip, netmask):
     element = list(map(int, ip.split('.')))
     res = []
@@ -53,11 +58,13 @@ def print_broadcast(ip, netmask):
     
     return '.'.join(map(str, res))
 
+
 def print_fist_host(ip):
     element = list(map(int, ip.split('.')))
     element[3] += 1
 
     print("FirstHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
+
 
 def print_last_host(ip):
     element = list(map(int, ip.split('.')))
@@ -65,10 +72,12 @@ def print_last_host(ip):
 
     print("LastHost: {} \t {}".format('.'.join(map(str, element)), to_binary('.'.join(map(str, element)))))
 
+
 def print_hosts(mask):
     mask = int(mask) if mask != "NULL" else 5
     hosts = 2 ** (32 - mask) - 2
     print("Hosts: {}".format(hosts))
+
 
 input_value = input("Enter ip address (ex. 127.0.0.1/24): ")
 
