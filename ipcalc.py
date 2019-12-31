@@ -60,8 +60,6 @@ def print_netmask(ip, mask):
 
     print("Netmask: {} = {} \t {} (class {})".format('.'.join(map(str, netmask)), mask, to_binary('.'.join(map(str, netmask))), ip_class))
 
-    return netmask
-
 
 def formatter(my_str, group=8, char='.'):
     my_str = str(my_str)
@@ -120,7 +118,7 @@ else:
     mask = verify_mask(ip, mask)
 
 print_network(ip, mask)
-netmask = print_netmask(ip, mask)
+print_netmask(ip, mask)
 broadcast = print_broadcast(ip, mask)
 print_fist_host(ip)
 print_last_host(broadcast)
