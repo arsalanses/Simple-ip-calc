@@ -1,0 +1,12 @@
+services:
+  fastip-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastip-backend
+    restart: always
+    ports:
+      - 127.0.0.1:8080:80
+    logging:
+      options:
+        max-size: "64m"
